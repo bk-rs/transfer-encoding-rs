@@ -1,5 +1,9 @@
 use crate::TRANSFER_ENCODING_CHUNKED_VALUE;
 
+pub fn chunk_size(bytes: &[u8]) -> String {
+    format!("{:x}", bytes.len()).to_uppercase()
+}
+
 pub fn transfer_encoding_value_is_chunked(value: &str) -> bool {
     value == TRANSFER_ENCODING_CHUNKED_VALUE
         || value
@@ -22,6 +26,14 @@ pub fn transfer_encoding_is_chunked(headers: &http::HeaderMap<http::HeaderValue>
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_chunk_size() {
+        assert_eq!(chunk_size(b""), "0");
+        assert_eq!(chunk_size(b"1"), "1");
+        assert_eq!(chunk_size(b"1234567890"), "A");
+        assert_eq!(chunk_size(b"12345678901234"), "E");
+    }
 
     #[test]
     fn test_transfer_encoding_value_is_chunked() {
