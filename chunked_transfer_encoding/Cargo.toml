@@ -12,5 +12,24 @@ keywords = []
 categories = []
 readme = "README.md"
 
+[package.metadata.docs.rs]
+all-features = true
+
+[features]
+default = ["stream"]
+
+stream = ["futures-util", "pin-project-lite"]
+
+_priv_test_http = ["http"]
+
 [dependencies]
 http = { version = "0.2", default-features = false, optional = true }
+
+futures-util = { version = "0.3", default-features = false, optional = true }
+pin-project-lite = { version = "0.2", optional = true }
+
+[dev-dependencies]
+futures-executor = { version = "0.3" }
+
+[package.metadata.cargo-all-features]
+skip_optional_dependencies = true
